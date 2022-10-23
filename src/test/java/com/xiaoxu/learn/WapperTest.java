@@ -4,21 +4,24 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xiaoxu.learn.bean.UserInfo;
+import com.xiaoxu.learn.generator.domain.Commodity;
 import com.xiaoxu.learn.mapper.UserMapper;
-import lombok.SneakyThrows;
+import com.xiaoxu.learn.generator.mapper.CommodityMapper2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.LinkedList;
+import java.math.BigDecimal;
 import java.util.List;
 
 @SpringBootTest
 public class WapperTest {
     @Autowired
     UserMapper mapper;
+
+    @Autowired
+    CommodityMapper2 mapper2;
 
     @Test
     void test() {
@@ -167,5 +170,16 @@ public class WapperTest {
         updateWrapper.set(UserInfo::getAge, 999);
         mapper.update(null, updateWrapper);
         System.out.println("mapper.selectList(null) = " + mapper.selectList(null));
+    }
+
+    @Test
+    void allAll() {
+        System.out.println("mapper2.selectList(null) = " + mapper2.selectList(null));
+        Commodity commodity = new Commodity();
+        commodity.setName("名");
+        commodity.setPrice(new BigDecimal("66.6"));
+        commodity.setVersion(1);
+        mapper2.insertBatch(List.of(commodity, commodity, commodity, commodity));
+        System.out.println("mapper2.selectList(null) = " + mapper2.selectList(null));
     }
 }
