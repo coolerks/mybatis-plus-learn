@@ -2,21 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xiaoxu.learn.mapper.UserMapper">
 
-    <select id="selectByAge" resultMap="userInfo" resultOrdered="true">
-        select id, name, age, email from userInfo where age > #{age}
+    <select id="selectByAge" resultType="com.xiaoxu.learn.bean.UserInfo">
+        select id, name, age, email from user where age >= #{age} and del = 0
     </select>
 
-    <resultMap id="userInfo" type="com.xiaoxu.learn.bean.UserInfo">
-        <id column="id" property="id" javaType="java.lang.Long" jdbcType="BIGINT" />
-        <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <result column="age" property="age" javaType="java.lang.Integer" jdbcType="INTEGER" />
-        <result column="email" property="email" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </resultMap>
 
-    <resultMap id="userResultMapper" type="com.xiaoxu.learn.bean.UserInfo" >
-        <id column="id" property="ids" javaType="java.lang.Long" jdbcType="BIGINT" />
-        <result column="name" property="names" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <result column="age" property="userAge" javaType="java.lang.Integer" jdbcType="INTEGER" />
-        <result column="email" property="emails" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </resultMap>
 </mapper>

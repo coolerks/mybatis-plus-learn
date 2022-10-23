@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -98,5 +99,6 @@ public class ServiceTest {
         service.removeByMap(map);
         System.out.println("service.list() = " + service.list());
     }
+
 
 }

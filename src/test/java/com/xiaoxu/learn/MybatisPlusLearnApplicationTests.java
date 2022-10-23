@@ -109,7 +109,7 @@ class MybatisPlusLearnApplicationTests {
 
     @Test
     void consumer() {
-        System.out.println("mapper.selectByAge(10) = " + mapper.selectByAge(10));
+//        System.out.println("mapper.selectByAge(10) = " + mapper.selectByAge(10));
     }
 
     @Test

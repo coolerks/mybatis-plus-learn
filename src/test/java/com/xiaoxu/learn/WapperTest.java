@@ -2,13 +2,17 @@ package com.xiaoxu.learn;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.xiaoxu.learn.bean.UserInfo;
 import com.xiaoxu.learn.mapper.UserMapper;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @SpringBootTest
@@ -112,5 +116,56 @@ public class WapperTest {
 //        SELECT id,name,email,age,del FROM user WHERE del=0 AND (id IN (select id where id > 100))
         queryWrapper.inSql("id", "select id where id > 100");
         mapper.selectList(queryWrapper);
+    }
+
+    @Test
+    void update() {
+        System.out.println("mapper.selectList(null) = " + mapper.selectList(null));
+        UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.set("age", 888);
+//        updateWrapper.eq("age", 999);
+        mapper.update(null, updateWrapper);
+        System.out.println("mapper.selectList(null) = " + mapper.selectList(null));
+    }
+
+    @Test
+    void condition() {
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+        String name = null;
+        Integer minAge = 10, maxAge = 150;
+//        if(name != null) {
+//            queryWrapper.eq("name", name);
+//        }
+//        if(minAge != null) {
+//            queryWrapper.ge("age", minAge);
+//        }
+//        if(maxAge != null) {
+//            queryWrapper.le("age", maxAge);
+//        }
+        queryWrapper.eq(name != null, "name", name);
+        queryWrapper.ge(minAge != null, "age", minAge);
+        queryWrapper.le(maxAge != null, "age", maxAge);
+        mapper.selectList(queryWrapper);
+    }
+    @Test
+    void lambdaQueryWrapper() {
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        String name = "名称";
+        Integer minAge = 10, maxAge = 1500;
+        queryWrapper.select(UserInfo::getId, UserInfo::getName, UserInfo::getAge);
+        queryWrapper.eq(name != null, UserInfo::getName, name);
+        queryWrapper.ge(minAge != null, UserInfo::getAge, minAge);
+        queryWrapper.le(maxAge != null, UserInfo::getAge, maxAge);
+        mapper.selectList(queryWrapper);
+    }
+
+    @Test
+    void lambdaUpdateWrapper() {
+        System.out.println("mapper.selectList(null) = " + mapper.selectList(null));
+        LambdaUpdateWrapper<UserInfo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserInfo::getAge, 888);
+        updateWrapper.set(UserInfo::getAge, 999);
+        mapper.update(null, updateWrapper);
+        System.out.println("mapper.selectList(null) = " + mapper.selectList(null));
     }
 }
